@@ -1,3 +1,8 @@
+// Universidad del Valle
+// Digital 2
+// Ana Gramajo
+// Contador que puede cambiar de modo decena a binario. Aumenta y disminuye con dos botones. 
+
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -56,9 +61,8 @@ int estadoMenosAntes = 0;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
-void mostrarDecena(int num);
-void mostrarBinario(int n);
-void delay(int t);
+void mostrarDecena(int num); // Función que actualiza las led según el contador
+void mostrarBinario(int n); // Función que actualiza las led según el contador
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -150,7 +154,7 @@ int main(void)
 			estadoMas = HAL_GPIO_ReadPin(BTN_mas_GPIO_Port, BTN_mas_Pin); // Lee el botón más
 			if (estadoMas != estadoMasAntes) {
 				if (estadoMas == 0){ //Verifica que el botón se presionó
-					contador = (contador+1) % 16; // Incrementa y vuelve a 0 después de 4
+					contador = (contador+1) % 16; // Incrementa y vuelve a 0 después de 15
 					mostrarBinario(contador); // Función que actualiza las leds
 				}
 				estadoMasAntes = estadoMas;
@@ -158,7 +162,7 @@ int main(void)
 			estadoMenos = HAL_GPIO_ReadPin(BTN_menos_GPIO_Port, BTN_menos_Pin); // Lee el botón más
 			if (estadoMenos != estadoMenosAntes) {
 				if (estadoMenos == 1) { //Verifica que el botón se presionó
-					contador = (contador-1); // Decrementa y vuelve a 0 después de 4
+					contador = (contador-1); // Decrementa y vuelve a 0 después de 15
 					if (contador == -1) {
 						contador = 15;
 					}
@@ -276,7 +280,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void mostrarDecena(int num){
+void mostrarDecena(int num){ // Función que actualiza las leds según el número que se envió a la función
 	switch (num) {
 		case 0:
 			HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, 0);
@@ -313,16 +317,13 @@ void mostrarDecena(int num){
 	}
 }
 
-void mostrarBinario(int n){
+void mostrarBinario(int n){ // Función que actualiza las leds según el número que se envió a la función
 	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, n & 0x001);
 	HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, (n >> 1) & 0x001);
 	HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, (n >> 2) & 0x001);
 	HAL_GPIO_WritePin(led4_GPIO_Port, led4_Pin, (n >> 3) & 0x001);
 }
 
-void delay(int t) {
-	for (int var = 0; var < t; ++var) {
-	}
 }
 /* USER CODE END 4 */
 
